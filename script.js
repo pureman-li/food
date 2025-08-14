@@ -1,25 +1,25 @@
 // 食材数据 - 你可以在这里修改食材种类
 const ingredients = [
-    { id: 1, name: '面粉', image: 'https://via.placeholder.com/100x100/FF6B6B/FFFFFF?text=面粉', category: 'starch' },
-    { id: 2, name: '油', image: 'https://via.placeholder.com/100x100/4ECDC4/FFFFFF?text=油', category: 'seasoning' },
-    { id: 3, name: '水', image: 'https://via.placeholder.com/100x100/45B7D1/FFFFFF?text=水', category: 'liquid' },
-    { id: 4, name: '盐', image: 'https://via.placeholder.com/100x100/96CEB4/FFFFFF?text=盐', category: 'seasoning' },
-    { id: 5, name: '鸡蛋', image: 'https://via.placeholder.com/100x100/FFEAA7/FFFFFF?text=鸡蛋', category: 'protein' },
-    { id: 6, name: '荠菜', image: 'https://via.placeholder.com/100x100/55A3FF/FFFFFF?text=荠菜', category: 'vegetable' },
-    { id: 7, name: '枣泥馅', image: 'https://via.placeholder.com/100x100/DDA0DD/FFFFFF?text=枣泥馅', category: 'filling' },
-    { id: 8, name: '黑芝麻馅', image: 'https://via.placeholder.com/100x100/8B4513/FFFFFF?text=黑芝麻馅', category: 'filling' },
-    { id: 9, name: '葱', image: 'https://via.placeholder.com/100x100/32CD32/FFFFFF?text=葱', category: 'vegetable' },
-    { id: 10, name: '豆腐', image: 'https://via.placeholder.com/100x100/F0E68C/FFFFFF?text=豆腐', category: 'protein' },
-    { id: 11, name: '糯米粉', image: 'https://via.placeholder.com/100x100/DEB887/FFFFFF?text=糯米粉', category: 'starch' },
-    { id: 12, name: '笋', image: 'https://via.placeholder.com/100x100/90EE90/FFFFFF?text=笋', category: 'vegetable' },
-    { id: 13, name: '火腿', image: 'https://via.placeholder.com/100x100/CD853F/FFFFFF?text=火腿', category: 'protein' },
-    { id: 14, name: '猪肉', image: 'https://via.placeholder.com/100x100/FFB6C1/FFFFFF?text=猪肉', category: 'protein' },
-    { id: 15, name: '辣椒', image: 'https://via.placeholder.com/100x100/FF4500/FFFFFF?text=辣椒', category: 'seasoning' },
-    { id: 16, name: '面条', image: 'https://via.placeholder.com/100x100/F5DEB3/FFFFFF?text=面条', category: 'starch' },
-    { id: 17, name: '烤炉', image: 'https://via.placeholder.com/100x100/696969/FFFFFF?text=烤炉', category: 'tool' },
-    { id: 18, name: '刀', image: 'https://via.placeholder.com/100x100/C0C0C0/FFFFFF?text=刀', category: 'tool' },
-    { id: 19, name: '面皮', image: 'https://via.placeholder.com/100x100/FFF8DC/FFFFFF?text=面皮', category: 'starch' },
-    { id: 20, name: '肉馅', image: 'https://via.placeholder.com/100x100/DC143C/FFFFFF?text=肉馅', category: 'protein' }
+    { id: 1, name: '面粉', image: '面粉.png', category: 'starch' },
+    { id: 2, name: '油', image: '油.png', category: 'seasoning' },
+    { id: 3, name: '水', image: '饮用水.png', category: 'liquid' },
+    { id: 4, name: '盐', image: '盐.png', category: 'seasoning' },
+    { id: 5, name: '鸡蛋', image: '鸡蛋.png', category: 'protein' },
+    { id: 6, name: '荠菜', image: '荠菜.png', category: 'vegetable' },
+    { id: 7, name: '枣泥馅', image: '枣泥馅.png', category: 'filling' },
+    { id: 8, name: '黑芝麻馅', image: '黑芝麻馅.png', category: 'filling' },
+    { id: 9, name: '葱', image: '葱.png', category: 'vegetable' },
+    { id: 10, name: '豆腐', image: '豆腐.png', category: 'protein' },
+    { id: 11, name: '糯米粉', image: '糯米粉.png', category: 'starch' },
+    { id: 12, name: '笋', image: '笋.png', category: 'vegetable' },
+    { id: 13, name: '火腿', image: '火腿肠.png', category: 'protein' },
+    { id: 14, name: '猪肉', image: '猪肉.png', category: 'protein' },
+    { id: 15, name: '辣椒', image: '辣椒.png', category: 'seasoning' },
+    { id: 16, name: '面条', image: '面条.png', category: 'starch' },
+    { id: 17, name: '烤炉', image: '烤炉.png', category: 'tool' },
+    { id: 18, name: '刀', image: '刀.png', category: 'tool' },
+    { id: 19, name: '面皮', image: '面皮.png', category: 'starch' },
+    { id: 20, name: '肉馅', image: '肉馅.png', category: 'protein' }
 ];
 
 // 菜品配方数据
@@ -28,55 +28,55 @@ const recipes = [
         name: '枣花酥',
         ingredients: ['面粉', '油', '水', '枣泥馅'],
         description: '香甜酥脆的传统点心，层次分明',
-        image: 'https://via.placeholder.com/200x150/FF6B6B/FFFFFF?text=枣花酥'
+        image: '枣花酥.png'
     },
     {
         name: '荠菜炒鸡蛋',
         ingredients: ['鸡蛋', '荠菜', '盐'],
         description: '清香爽口，营养丰富的家常菜',
-        image: 'https://via.placeholder.com/200x150/55A3FF/FFFFFF?text=荠菜炒鸡蛋'
+        image: '荠菜炒鸡蛋.png'
     },
     {
         name: '小葱拌豆腐',
         ingredients: ['葱', '油', '豆腐'],
         description: '清淡爽口，葱香浓郁的凉菜',
-        image: 'https://via.placeholder.com/200x150/32CD32/FFFFFF?text=小葱拌豆腐'
+        image: '小葱拌豆腐.png'
     },
     {
         name: '汤圆',
         ingredients: ['面粉', '糯米粉', '黑芝麻馅'],
         description: '香甜软糯的传统甜品',
-        image: 'https://via.placeholder.com/200x150/DDA0DD/FFFFFF?text=汤圆'
+        image: '汤圆.png'
     },
     {
         name: '腌笃鲜',
         ingredients: ['笋', '火腿', '猪肉'],
         description: '鲜美浓郁的江南名菜',
-        image: 'https://via.placeholder.com/200x150/90EE90/FFFFFF?text=腌笃鲜'
+        image: '腌笃鲜.png'
     },
     {
         name: '担担面',
         ingredients: ['面条', '辣椒', '水'],
         description: '麻辣鲜香的四川特色面食',
-        image: 'https://via.placeholder.com/200x150/FF4500/FFFFFF?text=担担面'
+        image: '担担面.png'
     },
     {
         name: '烤肉',
         ingredients: ['烤炉', '油', '猪肉'],
         description: '外焦里嫩，香气四溢的烤肉',
-        image: 'https://via.placeholder.com/200x150/CD853F/FFFFFF?text=烤肉'
+        image: '烤肉.png'
     },
     {
         name: '文思豆腐',
         ingredients: ['豆腐', '水', '刀'],
         description: '刀工精细，清淡爽口的传统名菜',
-        image: 'https://via.placeholder.com/200x150/F0E68C/FFFFFF?text=文思豆腐'
+        image: '文思豆腐.png'
     },
     {
         name: '肉燕',
         ingredients: ['面皮', '肉馅', '水'],
         description: '鲜美可口的传统面食',
-        image: 'https://via.placeholder.com/200x150/DC143C/FFFFFF?text=肉燕'
+        image: '肉燕.png'
     }
 ];
 
