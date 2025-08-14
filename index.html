@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>食材组合器</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🍳 食材组合器</h1>
+            <p>拖拽食材到制作区，创造美味佳肴！</p>
+        </header>
+
+        <main>
+            <!-- 食材展示区 -->
+            <section class="ingredients-section">
+                <h2>🥬 食材库</h2>
+                <div class="ingredients-grid" id="ingredientsGrid">
+                    <!-- 食材将通过JavaScript动态生成 -->
+                </div>
+            </section>
+
+            <!-- 制作区 -->
+            <section class="cooking-section">
+                <h2>👨‍🍳 制作区</h2>
+                <div class="cooking-area" id="cookingArea">
+                    <div class="cooking-placeholder">
+                        <p>拖拽食材到这里开始制作</p>
+                        <p class="hint">提示：某些食材组合可以制作出特殊菜品</p>
+                    </div>
+                </div>
+                
+                <!-- 已添加的食材显示 -->
+                <div class="added-ingredients">
+                    <h3>已添加的食材：</h3>
+                    <div class="ingredients-list" id="addedIngredientsList">
+                        <!-- 已添加的食材将在这里显示 -->
+                    </div>
+                </div>
+
+                <!-- 菜品结果 -->
+                <div class="dish-result" id="dishResult" style="display: none;">
+                    <h3>🎉 制作成功！</h3>
+                    <div class="dish-info">
+                        <div class="dish-image" id="dishImage"></div>
+                        <div class="dish-details">
+                            <h4 id="dishName"></h4>
+                            <p id="dishDescription"></p>
+                        </div>
+                    </div>
+                    <button class="clear-btn" onclick="clearCookingArea()">重新开始</button>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>享受烹饪的乐趣！</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

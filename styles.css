@@ -1,0 +1,318 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+    color: white;
+}
+
+header h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.ingredients-section, .cooking-section {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    backdrop-filter: blur(10px);
+}
+
+.ingredients-section h2, .cooking-section h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #4a5568;
+    font-size: 1.8rem;
+}
+
+.ingredients-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+}
+
+.ingredient-item {
+    background: linear-gradient(145deg, #f7fafc, #edf2f7);
+    border: 2px solid #e2e8f0;
+    border-radius: 15px;
+    padding: 15px;
+    text-align: center;
+    cursor: grab;
+    transition: all 0.3s ease;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.ingredient-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    border-color: #4299e1;
+}
+
+.ingredient-item:active {
+    cursor: grabbing;
+    transform: scale(0.95);
+}
+
+.ingredient-item.dragging {
+    opacity: 0.5;
+    transform: rotate(5deg);
+}
+
+.ingredient-item img {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+}
+
+.ingredient-item span {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #4a5568;
+    display: block;
+}
+
+.cooking-area {
+    min-height: 200px;
+    border: 3px dashed #cbd5e0;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, #f7fafc, #edf2f7);
+    transition: all 0.3s ease;
+    margin-bottom: 25px;
+}
+
+.cooking-area.drag-over {
+    border-color: #4299e1;
+    background: linear-gradient(145deg, #ebf8ff, #bee3f8);
+    transform: scale(1.02);
+}
+
+.cooking-placeholder {
+    text-align: center;
+    color: #718096;
+}
+
+.cooking-placeholder p {
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+}
+
+.cooking-placeholder .hint {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    font-style: italic;
+}
+
+.added-ingredients {
+    margin-bottom: 25px;
+}
+
+.added-ingredients h3 {
+    margin-bottom: 15px;
+    color: #4a5568;
+    font-size: 1.3rem;
+}
+
+.ingredients-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.added-ingredient {
+    background: linear-gradient(145deg, #48bb78, #38a169);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
+    position: relative;
+}
+
+.added-ingredient img {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+}
+
+.remove-ingredient {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    margin-left: 5px;
+}
+
+.remove-ingredient:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+.remove-ingredient:active {
+    transform: scale(0.9);
+}
+
+.dish-result {
+    background: linear-gradient(145deg, #fef5e7, #fed7aa);
+    border: 2px solid #f6ad55;
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.dish-result h3 {
+    color: #c05621;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+.dish-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.dish-image {
+    width: 80px;
+    height: 80px;
+    background: white;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.dish-details {
+    text-align: left;
+    flex: 1;
+}
+
+.dish-details h4 {
+    color: #c05621;
+    margin-bottom: 8px;
+    font-size: 1.3rem;
+}
+
+.dish-details p {
+    color: #744210;
+    line-height: 1.5;
+}
+
+.clear-btn {
+    background: linear-gradient(145deg, #f56565, #e53e3e);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(245, 101, 101, 0.3);
+}
+
+.clear-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(245, 101, 101, 0.4);
+}
+
+footer {
+    text-align: center;
+    color: white;
+    opacity: 0.8;
+    font-size: 1.1rem;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    main {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .ingredients-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+    }
+    
+    header h1 {
+        font-size: 2.5rem;
+    }
+    
+    .container {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .ingredients-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+    
+    .ingredient-item {
+        padding: 12px 8px;
+    }
+    
+    .ingredient-item img {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .ingredient-item span {
+        font-size: 0.8rem;
+    }
+}
