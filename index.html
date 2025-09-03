@@ -10,7 +10,9 @@
     <div class="container">
         <header>
             <h1>🍳 食材组合器</h1>
-            <p>拖拽食材到制作区，创造美味佳肴！</p>
+            <div class="game-instruction">
+                <p>🎮 请长按并拖动食材到下方烹饪区（每道菜限制使用三个食材），制作出属于你的美食吧！</p>
+            </div>
         </header>
 
         <main>
@@ -50,6 +52,13 @@
                             <p id="dishDescription"></p>
                         </div>
                     </div>
+                    <button class="clear-btn" onclick="clearCookingArea()">重新开始</button>
+                </div>
+
+                <!-- 失败提示 -->
+                <div class="failure-hint" id="failureHint" style="display: none;">
+                    <h3>🥲 制作失败</h3>
+                    <p>你选择的食材未能成功组成菜品，请再试试其他的搭配吧~</p>
                     <button class="clear-btn" onclick="clearCookingArea()">重新开始</button>
                 </div>
             </section>

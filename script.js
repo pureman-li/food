@@ -26,56 +26,56 @@ const ingredients = [
 const recipes = [
     {
         name: '枣花酥',
-        ingredients: ['面粉', '油', '水', '枣泥馅'],
-        description: '香甜酥脆的传统点心，层次分明',
+        ingredients: ['面粉', '油', '枣泥馅'],
+        description: '枣花酥是北京传统小吃“八大件”糕点之一，承载着历史记忆和美好祝福。（详见本书6-7页）',
         image: '枣花酥.png'
     },
     {
         name: '荠菜炒鸡蛋',
         ingredients: ['鸡蛋', '荠菜', '盐'],
-        description: '清香爽口，营养丰富的家常菜',
+        description: '荠菜又叫“春菜”，春季食用荠菜炒鸡蛋有祈求平安吉祥、家宅兴旺的寓意。（详见本书10-12页）',
         image: '荠菜炒鸡蛋.png'
     },
     {
         name: '小葱拌豆腐',
         ingredients: ['葱', '油', '豆腐'],
-        description: '清淡爽口，葱香浓郁的凉菜',
+        description: '小葱拌豆腐做法极简，味道鲜美，兼具质朴本味与清正的寓意，是国人喜爱的家常菜之一。（详见本书15-17页）',
         image: '小葱拌豆腐.png'
     },
     {
         name: '汤圆',
         ingredients: ['面粉', '糯米粉', '黑芝麻馅'],
-        description: '香甜软糯的传统甜品',
+        description: '汤圆是我国必不可少的节庆美食之一，象征合家幸福，团圆美满。（详见本书21-23页）',
         image: '汤圆.png'
     },
     {
         name: '腌笃鲜',
         ingredients: ['笋', '火腿', '猪肉'],
-        description: '鲜美浓郁的江南名菜',
+        description: '属于江南地区的特色菜肴，此菜汤白汁浓，肉酥笋嫩，鲜味浓厚，是当之无愧的“舌尖风物诗”。（详见本书98-99页）',
         image: '腌笃鲜.png'
     },
     {
         name: '担担面',
         ingredients: ['面条', '辣椒', '水'],
-        description: '麻辣鲜香的四川特色面食',
+        description: '担担面是川渝地区的特色美食，也是市井烟火气的象征。（详见本书64-66页）',
         image: '担担面.png'
     },
     {
         name: '烤肉',
         ingredients: ['烤炉', '油', '猪肉'],
-        description: '外焦里嫩，香气四溢的烤肉',
+        description: '烤肉讲究“自烤自食”，鲜肉在炭火的炙烤下散发出别样的风味，是亲友相聚、邻里往来中不可或缺的“饮食社交”。（详见本书45-47页）',
         image: '烤肉.png'
     },
     {
         name: '文思豆腐',
         ingredients: ['豆腐', '水', '刀'],
-        description: '刀工精细，清淡爽口的传统名菜',
+        description: '文思豆腐展现了中式烹饪“食不厌精，脍不厌细”的追求，是一道经典的淮扬菜。（详见本书50-52页）',
         image: '文思豆腐.png'
     },
     {
         name: '肉燕',
         ingredients: ['面皮', '肉馅', '水'],
-        description: '鲜美可口的传统面食',
+        description: '肉燕是福州地区节庆宴客、婚丧嫁娶等重要场合的必备菜肴，它形似飞燕，寓意“平安吉祥”。（详见本书57-59页）',
         image: '肉燕.png'
     }
 ];
@@ -249,15 +249,22 @@ function checkRecipe() {
     
     if (matchedRecipe) {
         showDishResult(matchedRecipe);
+    } else if (addedIngredients.length === 3) {
+        // 如果已添加3个食材但没有匹配的配方，显示失败提示
+        showFailureHint();
     }
 }
 
 // 显示菜品结果
 function showDishResult(recipe) {
     const dishResult = document.getElementById('dishResult');
+    const failureHint = document.getElementById('failureHint');
     const dishImage = document.getElementById('dishImage');
     const dishName = document.getElementById('dishName');
     const dishDescription = document.getElementById('dishDescription');
+    
+    // 隐藏失败提示
+    failureHint.style.display = 'none';
     
     dishImage.innerHTML = `<img src="${recipe.image}" alt="${recipe.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px;">`;
     dishName.textContent = recipe.name;
@@ -267,6 +274,24 @@ function showDishResult(recipe) {
     
     // 添加成功动画
     dishResult.style.animation = 'fadeInUp 0.6s ease-out';
+}
+
+// 显示失败提示
+function showFailureHint() {
+    const failureHint = document.getElementById('failureHint');
+    const dishResult = document.getElementById('dishResult');
+    
+    // 隐藏成功结果
+    dishResult.style.display = 'none';
+    
+    // 显示失败提示
+    failureHint.style.display = 'block';
+    
+    // 重新触发动画
+    failureHint.style.animation = 'none';
+    setTimeout(() => {
+        failureHint.style.animation = 'shake 0.5s ease-in-out';
+    }, 10);
 }
 
 // 移除单个食材
@@ -318,9 +343,11 @@ function clearCookingArea() {
     const addedIngredientsList = document.getElementById('addedIngredientsList');
     addedIngredientsList.innerHTML = '';
     
-    // 隐藏菜品结果
+    // 隐藏菜品结果和失败提示
     const dishResult = document.getElementById('dishResult');
+    const failureHint = document.getElementById('failureHint');
     dishResult.style.display = 'none';
+    failureHint.style.display = 'none';
     
     // 重新初始化拖拽功能
     initializeDragAndDrop();

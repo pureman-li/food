@@ -25,8 +25,38 @@ header {
 
 header h1 {
     font-size: 3rem;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.game-instruction {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 800px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    animation: float 3s ease-in-out infinite;
+}
+
+.game-instruction p {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    margin: 0;
+    line-height: 1.5;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
 }
 
 header p {
@@ -208,6 +238,35 @@ main {
     padding: 25px;
     text-align: center;
     margin-top: 20px;
+}
+
+.failure-hint {
+    background: linear-gradient(145deg, #fef2f2, #fecaca);
+    border: 2px solid #f87171;
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    margin-top: 20px;
+    animation: shake 0.5s ease-in-out;
+}
+
+.failure-hint h3 {
+    color: #dc2626;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.failure-hint p {
+    color: #991b1b;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
 }
 
 .dish-result h3 {
