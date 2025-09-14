@@ -83,11 +83,12 @@ const recipes = [
 // 全局变量
 let addedIngredients = [];
 let isDragging = false;
+let unlockedRecipes = JSON.parse(localStorage.getItem('unlockedRecipes') || '[]');
 
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', function() {
     initializeIngredients();
-    initializeDragAndDrop();
+    initializeEncyclopedia();
 });
 
 // 初始化食材展示
@@ -97,7 +98,6 @@ function initializeIngredients() {
     ingredients.forEach(ingredient => {
         const ingredientElement = document.createElement('div');
         ingredientElement.className = 'ingredient-item';
-        ingredientElement.draggable = true;
         ingredientElement.dataset.ingredientId = ingredient.id;
         ingredientElement.dataset.ingredientName = ingredient.name;
         
@@ -105,6 +105,14 @@ function initializeIngredients() {
             <img src="${ingredient.image}" alt="${ingredient.name}" onerror="this.style.display='none'">
             <span>${ingredient.name}</span>
         `;
+        
+        // 添加点击事件
+        ingredientElement.addEventListener('click', function() {
+            const ingredientName = this.dataset.ingredientName;
+            if (!addedIngredients.includes(ingredientName)) {
+                addIngredient(ingredientName);
+            }
+        });
         
         ingredientsGrid.appendChild(ingredientElement);
     });
@@ -184,63 +192,68 @@ function handleDrop(e) {
 
 // 添加食材到制作区
 function addIngredient(ingredientName) {
+    if (addedIngredients.length >= 3) {
+        return; // 最多只能添加3个食材
+    }
+    
     addedIngredients.push(ingredientName);
-    updateAddedIngredientsDisplay();
-    
-    // 隐藏占位符
-    const placeholder = document.querySelector('.cooking-placeholder');
-    if (placeholder) {
-        placeholder.style.display = 'none';
-    }
-    
-    // 显示已添加的食材
-    const cookingArea = document.getElementById('cookingArea');
-    const ingredientElement = document.createElement('div');
-    ingredientElement.className = 'added-ingredient';
-    ingredientElement.dataset.ingredientName = ingredientName;
-    
-    // 查找食材对象以获取图片
-    const ingredient = ingredients.find(i => i.name === ingredientName);
-    console.log('拖入的食材名称:', ingredientName);
-    console.log('查找到的食材对象:', ingredient);
-    console.log('所有食材:', ingredients);
-    
-    if (ingredient) {
-        ingredientElement.innerHTML = `
-            <img src="${ingredient.image}" alt="${ingredient.name}" onerror="this.style.display='none'">
-            <span>${ingredientName}</span>
-            <button class="remove-ingredient" onclick="removeIngredient('${ingredientName}')">×</button>
-        `;
-    } else {
-        ingredientElement.innerHTML = `
-            <span>${ingredientName}</span>
-            <button class="remove-ingredient" onclick="removeIngredient('${ingredientName}')">×</button>
-        `;
-    }
-    cookingArea.appendChild(ingredientElement);
+    updateIngredientSlots();
+    updateIngredientItemStates();
+    updateCookButton();
 }
 
-// 更新已添加食材的显示
-function updateAddedIngredientsDisplay() {
-    const addedIngredientsList = document.getElementById('addedIngredientsList');
-    addedIngredientsList.innerHTML = '';
+// 更新食材槽位显示
+function updateIngredientSlots() {
+    const slots = document.querySelectorAll('.ingredient-slot');
     
-    addedIngredients.forEach(ingredientName => {
-        const ingredient = ingredients.find(i => i.name === ingredientName);
-        if (ingredient) {
-            const ingredientElement = document.createElement('div');
-            ingredientElement.className = 'added-ingredient';
-            ingredientElement.innerHTML = `
-                <img src="${ingredient.image}" alt="${ingredient.name}" onerror="this.style.display='none'">
-                <span>${ingredient.name}</span>
+    slots.forEach((slot, index) => {
+        const slotNumber = index + 1;
+        const ingredientName = addedIngredients[index];
+        
+        if (ingredientName) {
+            const ingredient = ingredients.find(i => i.name === ingredientName);
+            slot.classList.add('filled');
+            slot.innerHTML = `
+                <div class="added-ingredient">
+                    <img src="${ingredient.image}" alt="${ingredient.name}" onerror="this.style.display='none'">
+                    <span>${ingredientName}</span>
+                    <button class="remove-ingredient" onclick="removeIngredient('${ingredientName}')">×</button>
+                </div>
             `;
-            addedIngredientsList.appendChild(ingredientElement);
+        } else {
+            slot.classList.remove('filled');
+            slot.innerHTML = `
+                <div class="slot-placeholder">点击食材添加</div>
+            `;
         }
     });
 }
 
-// 检查是否有匹配的菜品配方
-function checkRecipe() {
+// 更新制作按钮状态
+function updateCookButton() {
+    const cookBtn = document.getElementById('cookBtn');
+    cookBtn.disabled = addedIngredients.length !== 3;
+}
+
+// 更新食材项目的状态
+function updateIngredientItemStates() {
+    const ingredientItems = document.querySelectorAll('.ingredient-item');
+    ingredientItems.forEach(item => {
+        const ingredientName = item.dataset.ingredientName;
+        if (addedIngredients.includes(ingredientName) || addedIngredients.length >= 3) {
+            item.classList.add('added');
+        } else {
+            item.classList.remove('added');
+        }
+    });
+}
+
+// 尝试制作菜品
+function tryCook() {
+    if (addedIngredients.length !== 3) {
+        return;
+    }
+    
     const matchedRecipe = recipes.find(recipe => {
         return recipe.ingredients.every(ingredient => 
             addedIngredients.includes(ingredient)
@@ -249,10 +262,14 @@ function checkRecipe() {
     
     if (matchedRecipe) {
         showDishResult(matchedRecipe);
-    } else if (addedIngredients.length === 3) {
-        // 如果已添加3个食材但没有匹配的配方，显示失败提示
+    } else {
         showFailureHint();
     }
+}
+
+// 检查是否有匹配的菜品配方（保留用于兼容性）
+function checkRecipe() {
+    // 这个函数保留以确保兼容性，但主要逻辑现在在tryCook中
 }
 
 // 显示菜品结果
@@ -274,6 +291,9 @@ function showDishResult(recipe) {
     
     // 添加成功动画
     dishResult.style.animation = 'fadeInUp 0.6s ease-out';
+    
+    // 解锁这道菜
+    unlockRecipe(recipe);
 }
 
 // 显示失败提示
@@ -303,54 +323,117 @@ function removeIngredient(ingredientName) {
     }
     
     // 更新显示
-    updateAddedIngredientsDisplay();
-    
-    // 从制作区移除对应的食材元素
-    const cookingArea = document.getElementById('cookingArea');
-    const ingredientElements = cookingArea.querySelectorAll('.added-ingredient');
-    ingredientElements.forEach(element => {
-        if (element.dataset.ingredientName === ingredientName) {
-            element.remove();
-        }
-    });
-    
-    // 如果没有食材了，显示占位符
-    if (addedIngredients.length === 0) {
-        const placeholder = document.querySelector('.cooking-placeholder');
-        if (placeholder) {
-            placeholder.style.display = 'block';
-        }
-    }
-    
-    // 重新检查配方
-    checkRecipe();
+    updateIngredientSlots();
+    updateIngredientItemStates();
+    updateCookButton();
 }
 
 // 清空制作区
 function clearCookingArea() {
     addedIngredients = [];
     
-    // 清空制作区
-    const cookingArea = document.getElementById('cookingArea');
-    cookingArea.innerHTML = `
-        <div class="cooking-placeholder">
-            <p>拖拽食材到这里开始制作</p>
-            <p class="hint">提示：某些食材组合可以制作出特殊菜品</p>
-        </div>
-    `;
-    
-    // 清空已添加食材列表
-    const addedIngredientsList = document.getElementById('addedIngredientsList');
-    addedIngredientsList.innerHTML = '';
+    // 更新显示
+    updateIngredientSlots();
+    updateIngredientItemStates();
+    updateCookButton();
     
     // 隐藏菜品结果和失败提示
     const dishResult = document.getElementById('dishResult');
     const failureHint = document.getElementById('failureHint');
     dishResult.style.display = 'none';
     failureHint.style.display = 'none';
+}
+
+// 解锁菜品
+function unlockRecipe(recipe) {
+    if (!unlockedRecipes.includes(recipe.name)) {
+        unlockedRecipes.push(recipe.name);
+        localStorage.setItem('unlockedRecipes', JSON.stringify(unlockedRecipes));
+        updateEncyclopediaDisplay();
+        
+        // 显示解锁提示
+        showUnlockNotification(recipe);
+    }
+}
+
+// 显示解锁提示
+function showUnlockNotification(recipe) {
+    const notification = document.createElement('div');
+    notification.className = 'unlock-notification';
+    notification.innerHTML = `
+        <div class="unlock-content">
+            <h3>🎉 解锁新菜品！</h3>
+            <p>你已经成功制作了<strong>${recipe.name}</strong></p>
+            <p>快去图鉴看看吧！</p>
+        </div>
+    `;
     
-    // 重新初始化拖拽功能
-    initializeDragAndDrop();
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(145deg, #48bb78, #38a169);
+        color: white;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(72, 187, 120, 0.4);
+        z-index: 1001;
+        animation: slideInRight 0.5s ease-out;
+        max-width: 300px;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // 3秒后自动移除
+    setTimeout(() => {
+        notification.style.animation = 'slideOutRight 0.5s ease-in';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 500);
+    }, 3000);
+}
+
+// 初始化图鉴
+function initializeEncyclopedia() {
+    updateEncyclopediaDisplay();
+}
+
+// 更新图鉴显示
+function updateEncyclopediaDisplay() {
+    const encyclopediaGrid = document.getElementById('encyclopediaGrid');
+    const unlockedCount = document.getElementById('unlockedCount');
+    const totalCount = document.getElementById('totalCount');
+    
+    encyclopediaGrid.innerHTML = '';
+    
+    recipes.forEach(recipe => {
+        const isUnlocked = unlockedRecipes.includes(recipe.name);
+        const item = document.createElement('div');
+        item.className = `encyclopedia-item ${isUnlocked ? 'unlocked' : 'locked'}`;
+        
+        item.innerHTML = `
+            <div class="dish-image-container">
+                <img src="${recipe.image}" alt="${recipe.name}">
+                ${!isUnlocked ? '<div class="lock-overlay"><span>🔒</span></div>' : ''}
+            </div>
+            <h4>${recipe.name}</h4>
+            <p>${isUnlocked ? recipe.description : '尚未解锁，完成制作后查看详细介绍'}</p>
+            ${isUnlocked ? '<div class="unlock-indicator">✓</div>' : ''}
+        `;
+        
+        encyclopediaGrid.appendChild(item);
+    });
+    
+    // 更新统计
+    unlockedCount.textContent = unlockedRecipes.length;
+    totalCount.textContent = recipes.length;
+}
+
+// 切换图鉴显示（保留以兼容性，但不再需要）
+function toggleEncyclopedia() {
+    // 图鉴现在直接显示在页面上，此函数保留以确保兼容性
 }
 
 // 添加CSS动画
@@ -364,6 +447,28 @@ style.textContent = `
         to {
             opacity: 1;
             transform: translateY(0);
+        }
+    }
+    
+    @keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    @keyframes slideOutRight {
+        from {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateX(100%);
         }
     }
 `;
