@@ -672,22 +672,53 @@ footer {
         grid-template-columns: repeat(3, 1fr);
         gap: 10px;
     }
-    
+
     .ingredient-item {
         padding: 12px 8px;
     }
-    
+
     .ingredient-item img {
         width: 35px;
         height: 35px;
     }
-    
+
     .ingredient-item span {
         font-size: 0.8rem;
     }
-    
+
     .encyclopedia-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        padding: 8px;
+    }
+
+    .encyclopedia-item {
+        padding: 15px 12px;
+    }
+
+    .dish-image-container {
+        width: 50px;
+        height: 50px;
+        margin: 0 auto 8px;
+    }
+
+    .encyclopedia-item h4 {
+        font-size: 0.9rem;
+        margin-bottom: 6px;
+    }
+
+    .encyclopedia-item p {
+        font-size: 0.75rem;
+        -webkit-line-clamp: 2;
+    }
+
+    .lock-overlay span {
+        font-size: 1.2rem;
+    }
+
+    .unlock-indicator {
+        width: 18px;
+        height: 18px;
+        font-size: 0.7rem;
     }
 }
