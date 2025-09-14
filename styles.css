@@ -29,6 +29,29 @@ header h1 {
     text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
 
+.header-controls {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.encyclopedia-btn {
+    background: linear-gradient(145deg, #4299e1, #3182ce);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(66, 153, 225, 0.3);
+}
+
+.encyclopedia-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(66, 153, 225, 0.4);
+}
+
 .game-instruction {
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(10px);
@@ -50,6 +73,28 @@ header h1 {
     line-height: 1.5;
 }
 
+.encyclopedia-promo {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 15px 20px;
+    margin: 15px auto;
+    max-width: 800px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    animation: float 3s ease-in-out infinite;
+    animation-delay: 0.5s;
+}
+
+.encyclopedia-promo p {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    margin: 5px 0;
+    line-height: 1.4;
+}
+
 @keyframes float {
     0%, 100% {
         transform: translateY(0px);
@@ -65,13 +110,13 @@ header p {
 }
 
 main {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 40px;
     margin-bottom: 40px;
 }
 
-.ingredients-section, .cooking-section {
+.ingredients-section, .cooking-section, .encyclopedia-section {
     background: white;
     border-radius: 20px;
     padding: 30px;
@@ -79,7 +124,7 @@ main {
     backdrop-filter: blur(10px);
 }
 
-.ingredients-section h2, .cooking-section h2 {
+.ingredients-section h2, .cooking-section h2, .encyclopedia-section h2 {
     text-align: center;
     margin-bottom: 25px;
     color: #4a5568;
@@ -98,7 +143,7 @@ main {
     border-radius: 15px;
     padding: 15px;
     text-align: center;
-    cursor: grab;
+    cursor: pointer;
     transition: all 0.3s ease;
     user-select: none;
     position: relative;
@@ -112,13 +157,14 @@ main {
 }
 
 .ingredient-item:active {
-    cursor: grabbing;
     transform: scale(0.95);
 }
 
-.ingredient-item.dragging {
+.ingredient-item.added {
     opacity: 0.5;
-    transform: rotate(5deg);
+    background: linear-gradient(145deg, #e2e8f0, #cbd5e0);
+    border-color: #a0aec0;
+    cursor: not-allowed;
 }
 
 .ingredient-item img {
@@ -147,12 +193,6 @@ main {
     margin-bottom: 25px;
 }
 
-.cooking-area.drag-over {
-    border-color: #4299e1;
-    background: linear-gradient(145deg, #ebf8ff, #bee3f8);
-    transform: scale(1.02);
-}
-
 .cooking-placeholder {
     text-align: center;
     color: #718096;
@@ -169,20 +209,124 @@ main {
     font-style: italic;
 }
 
-.added-ingredients {
+.selected-ingredients {
     margin-bottom: 25px;
 }
 
-.added-ingredients h3 {
-    margin-bottom: 15px;
-    color: #4a5568;
-    font-size: 1.3rem;
+.ingredient-slots {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    justify-content: center;
 }
 
-.ingredients-list {
+.ingredient-slot {
+    width: 120px;
+    height: 120px;
+    border: 3px dashed #cbd5e0;
+    border-radius: 20px;
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, #f7fafc, #edf2f7);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.ingredient-slot.filled {
+    border: 3px solid #4299e1;
+    background: linear-gradient(145deg, #ebf8ff, #bee3f8);
+    box-shadow: 0 4px 15px rgba(66, 153, 225, 0.2);
+}
+
+.slot-placeholder {
+    text-align: center;
+    color: #a0aec0;
+    font-size: 0.9rem;
+    padding: 10px;
+    line-height: 1.3;
+}
+
+.ingredient-slot .added-ingredient {
+    background: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ingredient-slot .added-ingredient img {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+}
+
+.ingredient-slot .added-ingredient span {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.ingredient-slot .remove-ingredient {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(245, 101, 101, 0.9);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.ingredient-slot .remove-ingredient:hover {
+    background: #e53e3e;
+    transform: scale(1.1);
+}
+
+.cooking-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.cook-btn {
+    background: linear-gradient(145deg, #48bb78, #38a169);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
+}
+
+.cook-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
+}
+
+.cook-btn:disabled {
+    background: linear-gradient(145deg, #a0aec0, #718096);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.cook-btn:active:not(:disabled) {
+    transform: scale(0.95);
 }
 
 .added-ingredient {
@@ -356,6 +500,173 @@ footer {
     }
 }
 
+
+
+
+.encyclopedia-intro {
+    text-align: center;
+    margin-bottom: 25px;
+    padding: 20px;
+    background: linear-gradient(145deg, #e6fffa, #b2f5ea);
+    border-radius: 15px;
+    border: 1px solid #81e6d9;
+}
+
+.encyclopedia-intro p {
+    color: #234e52;
+    font-size: 1.1rem;
+    margin: 10px 0;
+    line-height: 1.4;
+}
+
+.encyclopedia-stats {
+    margin-top: 15px;
+    font-size: 1.1rem;
+    color: #2d3748;
+    font-weight: 600;
+}
+
+.encyclopedia-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.encyclopedia-item {
+    background: linear-gradient(145deg, #f7fafc, #edf2f7);
+    border: 2px solid #e2e8f0;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.encyclopedia-item.locked {
+    filter: grayscale(80%);
+    opacity: 0.7;
+    background: linear-gradient(145deg, #f1f5f9, #e2e8f0);
+}
+
+.encyclopedia-item.unlocked {
+    filter: none;
+    opacity: 1;
+    background: linear-gradient(145deg, #f0fff4, #c6f6d5);
+    border-color: #68d391;
+    box-shadow: 0 4px 15px rgba(72, 187, 120, 0.2);
+}
+
+.encyclopedia-item.unlocked:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(72, 187, 120, 0.3);
+}
+
+.dish-image-container {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 10px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.encyclopedia-item img {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.encyclopedia-item.locked img {
+    filter: blur(1px);
+    opacity: 0.8;
+}
+
+.lock-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+.lock-overlay span {
+    font-size: 1.5rem;
+    color: white;
+}
+
+.encyclopedia-item h4 {
+    color: #4a5568;
+    font-size: 1rem;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.encyclopedia-item.locked h4 {
+    color: #718096;
+}
+
+.encyclopedia-item p {
+    color: #718096;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.unlock-indicator {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #48bb78;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(72, 187, 120, 0.3);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    main {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .ingredients-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+    }
+    
+    header h1 {
+        font-size: 2.5rem;
+    }
+    
+    .container {
+        padding: 15px;
+    }
+    
+    .encyclopedia-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+}
+
 @media (max-width: 480px) {
     .ingredients-grid {
         grid-template-columns: repeat(3, 1fr);
@@ -373,5 +684,10 @@ footer {
     
     .ingredient-item span {
         font-size: 0.8rem;
+    }
+    
+    .encyclopedia-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
     }
 }

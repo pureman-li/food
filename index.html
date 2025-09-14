@@ -11,11 +11,25 @@
         <header>
             <h1>🍳 食材组合器</h1>
             <div class="game-instruction">
-                <p>🎮 请长按并拖动食材到下方烹饪区（每道菜限制使用三个食材），制作出属于你的美食吧！</p>
+                <p>🎮 请点击食材添加到制作区（每道菜限制使用三个食材），制作出属于你的美食吧！</p>
             </div>
         </header>
 
         <main>
+            <!-- 美食图鉴 -->
+            <section class="encyclopedia-section">
+                <h2>📖 美食图鉴</h2>
+                <div class="encyclopedia-intro">
+                    <p>🎯 这里展示了游戏中所有可以制作的菜品，快去解锁它们吧！</p>
+                    <div class="encyclopedia-stats">
+                        <span>已解锁: <span id="unlockedCount">0</span> / <span id="totalCount">0</span></span>
+                    </div>
+                </div>
+                <div class="encyclopedia-grid" id="encyclopediaGrid">
+                    <!-- 菜品图鉴将通过JavaScript动态生成 -->
+                </div>
+            </section>
+
             <!-- 食材展示区 -->
             <section class="ingredients-section">
                 <h2>🥬 食材库</h2>
@@ -27,18 +41,29 @@
             <!-- 制作区 -->
             <section class="cooking-section">
                 <h2>👨‍🍳 制作区</h2>
-                <div class="cooking-area" id="cookingArea">
-                    <div class="cooking-placeholder">
-                        <p>拖拽食材到这里开始制作</p>
-                        <p class="hint">提示：某些食材组合可以制作出特殊菜品</p>
-                    </div>
-                </div>
                 
-                <!-- 已添加的食材显示 -->
-                <div class="added-ingredients">
-                    <h3>已添加的食材：</h3>
-                    <div class="ingredients-list" id="addedIngredientsList">
-                        <!-- 已添加的食材将在这里显示 -->
+                <!-- 选中的食材展示 -->
+                <div class="selected-ingredients" id="selectedIngredients">
+                    <div class="ingredient-slots">
+                        <div class="ingredient-slot" data-slot="1">
+                            <div class="slot-placeholder">点击食材添加</div>
+                        </div>
+                        <div class="ingredient-slot" data-slot="2">
+                            <div class="slot-placeholder">点击食材添加</div>
+                        </div>
+                        <div class="ingredient-slot" data-slot="3">
+                            <div class="slot-placeholder">点击食材添加</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 操作按钮 -->
+                    <div class="cooking-actions">
+                        <button class="cook-btn" id="cookBtn" onclick="tryCook()" disabled>
+                            🍳 开始制作
+                        </button>
+                        <button class="clear-btn" onclick="clearCookingArea()">
+                            🔄 清空重选
+                        </button>
                     </div>
                 </div>
 
@@ -52,14 +77,14 @@
                             <p id="dishDescription"></p>
                         </div>
                     </div>
-                    <button class="clear-btn" onclick="clearCookingArea()">重新开始</button>
+                    <button class="clear-btn" onclick="clearCookingArea()">继续制作</button>
                 </div>
 
                 <!-- 失败提示 -->
                 <div class="failure-hint" id="failureHint" style="display: none;">
                     <h3>🥲 制作失败</h3>
-                    <p>你选择的食材未能成功组成菜品，请再试试其他的搭配吧~</p>
-                    <button class="clear-btn" onclick="clearCookingArea()">重新开始</button>
+                    <p>这个食材组合没有制作出菜品，试试其他搭配吧！</p>
+                    <button class="clear-btn" onclick="clearCookingArea()">重新选择</button>
                 </div>
             </section>
         </main>
